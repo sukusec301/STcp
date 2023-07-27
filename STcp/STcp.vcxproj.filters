@@ -30,6 +30,12 @@
     <ClCompile Include="CCrc32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CInitSocketVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMyTcp.h">
@@ -45,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CCrc32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CInitSocketVersion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

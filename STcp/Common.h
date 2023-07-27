@@ -7,10 +7,4 @@
 #pragma comment(lib, "Ws2_32.lib")
 #include "CLock.h"
 #include "CCrc32.h"
-enum PackageType
-{
-    PT_DATA = 1,
-    PT_ACK = 2,
-    PT_FIN = 4,
-    PT_SYN = 8,
-};
+#include "CInitSocketVersion.h"
