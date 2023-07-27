@@ -139,11 +139,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CPackage.cpp" />
+    <ClCompile Include="CBytesStreamBuffer.cpp" />
+    <ClCompile Include="CCrc32.cpp" />
+    <ClCompile Include="CLock.cpp" />
+    <ClCompile Include="CMyTcp.cpp" />
     <ClCompile Include="STcp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CPackage.h" />
+    <ClInclude Include="CBytesStreamBuffer.h" />
+    <ClInclude Include="CCrc32.h" />
+    <ClInclude Include="CLock.h" />
+    <ClInclude Include="CMyTcp.h" />
+    <ClInclude Include="Common.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

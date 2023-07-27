@@ -18,12 +18,33 @@
     <ClCompile Include="STcp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CPackage.cpp">
+    <ClCompile Include="CMyTcp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CBytesStreamBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CCrc32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CPackage.h">
+    <ClInclude Include="CMyTcp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CBytesStreamBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CCrc32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
