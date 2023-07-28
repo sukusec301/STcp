@@ -54,9 +54,9 @@ BOOL CMyTcp::Accept(LPCSTR szIP, USHORT dwPort)
             continue;
         }
         // 建立连接
+        Log("三次握手成功，开始初始化");
         break;
     }
-
     // 建立连接后的初始化: 更新序列号、开始准备接收，创建各种线程
     return AfterConnectInit();
 }
@@ -150,6 +150,7 @@ BOOL CMyTcp::AfterConnectInit()
     CloseHandle(m_hRecvThread);
     CloseHandle(m_hSendThread);
 
+    Log("创建线程成功!");
     return TRUE;
 }
 
@@ -230,6 +231,7 @@ DWORD CMyTcp::SendThreadProc(LPVOID lpParam)
             // 超时包重发
             if (( nCurrentTime - pt.second.m_LastTime) > RTO)
             {
+                pThis->Log("[package]:%d retransmissions", pt.second.m_pkg.m_nSeq);
                 sendto(pThis->m_socketServerandClient
                     , (char*)&pt.second.m_pkg, sizeof(pt.second.m_pkg)
                     , 0 , (sockaddr*)&pThis->m_siDst, sizeof(pThis->m_siDst));
@@ -290,6 +292,8 @@ DWORD CMyTcp::RecvThreadProc(LPVOID lpParam)
             }
             pThis->m_mapRecv[pkg.m_nSeq] = pkg;
             pThis->m_lockRecvMap.UnLock();
+
+            pThis->Log("package --- > m_mapRecv ok.");
             break;
         }
 

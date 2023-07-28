@@ -1,4 +1,6 @@
 #include "CCrc32.h"
+
+// CRC
 static const unsigned int crc32tab[] = {
      0X00000000L, 0X77073096L, 0XEE0E612CL, 0X990951BAL,
      0X076DC419L, 0X706AF48FL, 0XE963A535L, 0X9E6495A3L,
@@ -66,6 +68,7 @@ static const unsigned int crc32tab[] = {
      0XB40BBE37L, 0XC30C8EA1L, 0X5A05DF1BL, 0X2D02EF8DL
 };
 
+// 返回一个固定值
 unsigned int CCrc32::crc32(const unsigned char* buf, unsigned int size)
 {
     unsigned int i, crc;
