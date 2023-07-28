@@ -2,6 +2,7 @@
 #include <map>
 #include "Common.h"
 #include "CBytesStreamBuffer.h"
+
 enum PackageType
 {
     PT_PSH = 1,
@@ -40,33 +41,33 @@ private:
                 m_nCheckSum = CCrc32::crc32(m_aryData, m_nDataLen);
             }
         }
-        WORD m_nPt;                         // package type
-        DWORD m_nSeq = 0;                   // package sequence
-        BYTE m_aryData[MSS];           // data
-        DWORD m_nDataLen = 0;               // data len
-        DWORD m_nCheckSum = 0;              // package sum
+        WORD m_nPt;                         // 包类型
+        DWORD m_nSeq = 0;                   // 包的序号
+        BYTE m_aryData[MSS];                // 包数据
+        DWORD m_nDataLen = 0;               // 数据长度
+        DWORD m_nCheckSum = 0;              // 包校验值
+        DWORD m_nCount = 0;                 // 包发送的次数
     }Package;
 #pragma pack(pop)
-
     typedef struct tagPackInfo
     {
         tagPackInfo() = default;
-        tagPackInfo(time_t LastTime, Package pkg) 
+        tagPackInfo(ULONGLONG LastTime, Package pkg)
             : m_LastTime{ LastTime }, m_pkg{ pkg }{};
-        time_t m_LastTime;
+        ULONGLONG m_LastTime;
         Package m_pkg;
     }PackInfo;
 private:
     SOCKET m_socketServerandClient;
-    sockaddr_in m_addrServer;
-    sockaddr_in m_addrClient;
+    sockaddr_in m_siDst;                            // 对方的地址
+    sockaddr_in m_siSrc;                            // 自己的地址
 private:
-    DWORD m_NextSendSeq = 0;            // 下次拆包的序号
-    DWORD m_NextRecvSeq = 0;            // 下次存入缓冲区的包开始序号
+    DWORD m_NextSendSeq = 0;                        // 下次拆包的序号
+    DWORD m_NextRecvSeq = 0;                        // 下次存入缓冲区的包开始序号
 private:
     std::map<DWORD, PackInfo> m_mapSend;            // 存储发送包的容器
     CLock m_lockSendMap;                            // 发包的容器被发包线程和收包线程共同操作了
-    std::map<DWORD, PackInfo> m_mapRecv;            // 存储收包的容器
+    std::map<DWORD, Package> m_mapRecv;             // 存储收包的容器
     CLock m_lockRecvMap;                            // 发包的容器被发包线程和收包线程共同操作了
     CBytesStreamBuffer m_bufRecv;                   // 接收数据的缓冲区
     CLock m_lockForBufRecv;                         // 发包的容器被发包线程和收包线程共同操作了
@@ -80,5 +81,7 @@ private:
     static DWORD CALLBACK RecvThreadProc(LPVOID lpParam);       // 收包的线程
     static DWORD CALLBACK WorkThreadProc(LPVOID lpParam);       // 将包从收包容器丢入缓冲区的线程
     BOOL AfterConnectInit();
+public:
+    VOID Log(const char* szFmt...);
 };
 

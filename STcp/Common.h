@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <WinSock2.h>
 #define MSS 1460
+#define RTO 1000
 #pragma comment(lib, "Ws2_32.lib")
 #include "CLock.h"
 #include "CCrc32.h"
