@@ -15,7 +15,7 @@ void CLock::Lock()
     EnterCriticalSection(&m_csLock);
 }
 
-void CLock::Unlock()
+void CLock::UnLock()
 {
     LeaveCriticalSection(&m_csLock);
 }

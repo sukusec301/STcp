@@ -6,7 +6,7 @@ public:
     CLock();
     ~CLock();
     void Lock();
-    void Unlock();
+    void UnLock();
 private:
     CRITICAL_SECTION m_csLock;
 };

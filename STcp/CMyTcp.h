@@ -4,7 +4,7 @@
 #include "CBytesStreamBuffer.h"
 enum PackageType
 {
-    PT_DATA = 1,
+    PT_PSH = 1,
     PT_ACK = 2,
     PT_FIN = 4,
     PT_SYN = 8,
@@ -28,11 +28,11 @@ private:
     {
         tagPackage() = default;
         // to make ACK, give 3 default params
-        tagPackage(WORD nPt, DWORD nDataLen = 0, DWORD nSeq = 0, BYTE* pData = nullptr)
+        tagPackage(WORD nPt,  DWORD nSeq = 0, BYTE* pData = nullptr, DWORD nDataLen = 0)
             : m_nPt{ nPt }
             , m_nSeq{ nSeq }
         {
-            ZeroMemory(m_aryData, DATA_LEN);
+            ZeroMemory(m_aryData, MSS);
             if (pData != NULL)
             {
                 memcpy(m_aryData, pData, nDataLen);
@@ -41,10 +41,10 @@ private:
             }
         }
         WORD m_nPt;                         // package type
-        DWORD m_nDataLen = 0;               // data len
         DWORD m_nSeq = 0;                   // package sequence
+        BYTE m_aryData[MSS];           // data
+        DWORD m_nDataLen = 0;               // data len
         DWORD m_nCheckSum = 0;              // package sum
-        BYTE m_aryData[DATA_LEN];           // data
     }Package;
 #pragma pack(pop)
 

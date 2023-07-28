@@ -155,7 +155,27 @@ BOOL CMyTcp::AfterConnectInit()
 
 DWORD CMyTcp::Send(LPBYTE pBuff, DWORD nBuffLen)
 {
-    return 0;
+    // 拆分数据包，放入容器
+    DWORD dwCount = (nBuffLen % MSS == 0 ? nBuffLen / MSS : nBuffLen / MSS + 1);
+    //DWORD dwCount = (nBuffLen + MSS) / MSS;
+    m_lockSendMap.Lock();
+    for (int i = 0; i < dwCount; ++i)
+    {
+        DWORD dwLen = MSS;
+        // 最后一个包拷贝剩余的长度
+        if (i == dwCount - 1)
+        {
+            dwLen = (nBuffLen - i * MSS);
+        }
+        Package package(PT_PSH, m_NextSendSeq, pBuff + i * MSS, dwLen);
+
+        m_mapSend[m_NextSendSeq] = PackInfo(time(NULL), package);   // 初始包时间全部为0，全部算超时的包
+
+        fprintf(stdout, "package->map seq: %d", m_NextSendSeq);
+        ++m_NextSendSeq;
+    }
+    m_lockSendMap.UnLock();
+    return nBuffLen;
 }
 
 DWORD CMyTcp::Recv(LPBYTE pBuff, DWORD nBuffLen)
@@ -196,7 +216,16 @@ DWORD CMyTcp::SendThreadProc(LPVOID lpParam)
     CMyTcp* pThis = (CMyTcp*)lpParam;
     while (true)
     {
+        pThis->m_lockSendMap.Lock();
+        for (auto& pi : pThis->m_mapSend)
+        {
+            // 错误包重发
 
+
+
+            // 超时包重发
+        }
+        pThis->m_lockSendMap.UnLock();
     }
     return 0;
 }
